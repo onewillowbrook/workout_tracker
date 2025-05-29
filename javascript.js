@@ -9,6 +9,20 @@ document.getElementById('date').textContent = formattedDate;
 
 // Displaying time: ^^
 
+function updateGrandTotal() {
+    const allExerciseTotals = document.querySelectorAll('.exercise-total');
+    let grandTotal = 0;
+
+    allExerciseTotals.forEach(totalSpan => {
+        const match = totalSpan.textContent.match(/Total:\s*(\d+)/);
+        if (match) grandTotal += parseInt(match[1]);
+    });
+
+    document.getElementById('grandTotal').textContent = `Grand Total: ${grandTotal} lbs`;
+}
+
+// Grand total weight
+
 const armsOrLegs = ['Arm Day', 'Leg Day'];
 let currentIndex = 0;
 
@@ -64,8 +78,9 @@ function addExercise() {
             total += weight * reps;
         });
         exerciseTotal.textContent = `Total: ${total} lbs`;
+        updateGrandTotal(); // 👈 add this line
     }
-
+    
     function createSet() {
         const setDiv = document.createElement('div');
         setDiv.classList.add('set');

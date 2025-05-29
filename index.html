@@ -10,17 +10,15 @@
 <body>
     <h1>Workout Tracker!</h1>
 
-    <div>
+    <div id="dateKeeper">
         <label for="todayDate">Todays Date:</label>
         <p id ="date"></p>
     </div>
 
-    
-    <p>muscle group</p>
-
-    <button id="switchButton">Switch</button>
-    <p id="displayItem"></p>
-
+    <div id="switchGroup">
+        <button id="switchButton">Switch</button>
+        <p id="displayItem"></p>
+    </div>
 
     <div>
         <label for="timeLabel">Total Workout Time:</label>
@@ -28,17 +26,19 @@
         <button>Add Time</button>
     </div>
 
+    <div id="grandTotal">
+        Grand Total: 0 lbs
+    </div>
+
     <div>
-        <label for="item">Enter an exercise:</label>
-        <input type="text" name="item" id="item">
-        <button id="addExercise">Add exercise</button>
+        <div id="exerciseInputGroup">
+            <label for="item">Enter an exercise:</label>
+            <input type="text" name="item" id="item">
+            <button id="addExercise">Add exercise</button>
+        </div>
         <ul id="exerciseList"></ul>
         <div id="exercisesContainer"></div>
     </div>
-
-    <div id="grandTotal" style="margin-top: 20px; font-weight: bold;">
-        Grand Total: 0 lbs
-      </div>
 
 </body>
 </html>

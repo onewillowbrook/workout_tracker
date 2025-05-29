@@ -43,3 +43,38 @@ h1 {
 .set input {
     margin-right: 10px;
 }
+
+#grandTotal {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+  
+  #exerciseInputGroup {
+    margin-top: 10px;
+  }
+
+  #dateKeeper {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
+
+  #date {
+    margin: 0;            /* Remove default <p> margin */
+  }
+
+  #switchGroup {
+    display: flex;
+    align-items: center;
+  }
+
+  #switchButton {
+    display: flex;
+    width: 50px;
+    height: 25px;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
+  }
