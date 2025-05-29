@@ -7,6 +7,8 @@ const formattedDate = todaysDate.toLocaleDateString('en-US', {
 
 document.getElementById('date').textContent = formattedDate;
 
+// Displaying time: ^^
+
 const armsOrLegs = ['Arm Day', 'Leg Day'];
 let currentIndex = 0;
 
@@ -19,3 +21,21 @@ button.addEventListener('click', () => {
     currentIndex = (currentIndex + 1) % armsOrLegs.length;
     display.textContent = armsOrLegs[currentIndex];
 });
+
+// Arms or legs switch button ^^
+
+const exerciseInput = document.getElementById('item');
+const addExerciseBtn = document.getElementById('addExercise');
+const exerciseList = document.getElementById('exerciseList');
+
+addExerciseBtn.addEventListener('click', () => {
+    const exercise = exerciseInput.value.trim();
+    if (exercise !== '') {
+        const li = document.createElement('li');
+        li.textContent = exercise;
+        exerciseList.appendChild(li);
+        exerciseInput.value = ''; // clear input
+    }
+});
+
+// Adding elements to a list ^^
