@@ -252,7 +252,7 @@ timeInput.addEventListener('input', saveToStorage);
 window.addEventListener('DOMContentLoaded', loadFromStorage);
 
 // === Clear All Data Button ===
-const clearBtn = document.getElementById('clearData');
+const clearBtn = document.getElementById('clearButton');
 clearBtn.addEventListener('click', () => {
     if (confirm('Are you sure you want to clear all workout data?')) {
         localStorage.removeItem('workoutData');

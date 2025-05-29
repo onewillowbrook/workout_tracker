@@ -5,48 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Workout Tracker</title>
   <link rel="stylesheet" href="styles.css" />
+  <script src="javascript.js" defer></script>
 </head>
 <body>
-  <header>
-    <h1>Workout Tracker</h1>
+  <h1>Workout Tracker!</h1>
+
+  <div id="dateKeeper">
+    <label for="todayDate">Today's Date:</label>
     <p id="date"></p>
-  </header>
+  </div>
 
-  <main>
-    <!-- Arm/Leg Day Switch -->
-    <section>
-      <h2>Today's Focus:</h2>
-      <p id="displayItem">Arm Day</p>
-      <button id="switchButton">Switch</button>
-    </section>
+  <div id="switchGroup">
+    <button id="switchButton">Switch</button>
+    <p id="displayItem"></p>
+  </div>
 
-    <!-- Time Input -->
-    <section>
-      <label for="timeLabel">Workout Time (minutes):</label>
-      <input type="number" id="timeLabel" min="0" />
-    </section>
+  <div id="timeGroup">
+    <label for="timeLabel">Total Workout Time:</label>
+    <input type="text" name="timeLabel" id="timeLabel" />
+    <button id="addTimeButton">Add Time</button>
+  </div>
 
-    <!-- Exercise Input -->
-    <section>
-      <label for="item">Add Exercise:</label>
-      <input type="text" id="item" placeholder="e.g. Bench Press" />
-      <button id="addExercise">Add Exercise</button>
-    </section>
+  <div id="grandTotal">Grand Total: 0 lbs</div>
 
-    <!-- Exercises Container -->
-    <section id="exercisesContainer"></section>
+  <div id="exerciseInputWrapper">
+    <label for="item">Enter an exercise:</label>
+    <input type="text" name="item" id="item" />
+    <button id="addExercise">Add exercise</button>
+  </div>
 
-    <!-- Grand Total -->
-    <section>
-      <h3 id="grandTotal">Grand Total: 0 lbs</h3>
-    </section>
+  <ul id="exerciseList"></ul>
+  <div id="exercisesContainer"></div>
 
-    <!-- Clear Button -->
-    <section>
-      <button id="clearData">Clear All Data</button>
-    </section>
-  </main>
-
-  <script src="javascript.js"></script>
+  <div id="clearWrapper">
+    <button id="clearButton">Clear All Data</button>
+  </div>
 </body>
 </html>
