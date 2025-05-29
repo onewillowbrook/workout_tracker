@@ -26,96 +26,100 @@ button.addEventListener('click', () => {
 
 const exerciseInput = document.getElementById('item');
 const addExerciseBtn = document.getElementById('addExercise');
-const exerciseList = document.getElementById('exerciseList');
 const exercisesContainer = document.getElementById('exercisesContainer');
 
 function addExercise() {
-    let exerciseName = exerciseInput.value.trim();
-    if (exerciseName === '') return;
+    let name = exerciseInput.value.trim();
+    if (!name) return;
 
-    // Capitalize every word in exerciseName
-    exerciseName = exerciseName
-        .toLowerCase()
-        .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
+    name = name.split(' ')
+               .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+               .join(' ');
 
     const exerciseDiv = document.createElement('div');
-    exerciseDiv.classList.add('exercise-item');
+    exerciseDiv.className = 'exercise-item';
 
-    const nameSpan = document.createElement('span');
-    nameSpan.textContent = exerciseName;
-    exerciseDiv.appendChild(nameSpan);
+    const title = document.createElement('h3');
+    title.textContent = name;
+    exerciseDiv.appendChild(title);
+
+    const exerciseTotal = document.createElement('span');
+    exerciseTotal.className = 'exercise-total';
+    exerciseTotal.textContent = 'Total: 0';
+    exerciseDiv.appendChild(exerciseTotal);
 
     const setsContainer = document.createElement('div');
-    setsContainer.classList.add('sets-container');
+    setsContainer.className = 'sets-container';
     exerciseDiv.appendChild(setsContainer);
 
-    function refreshSetLabels() {
-        const sets = setsContainer.querySelectorAll('.set');
-        sets.forEach((setDiv, index) => {
-            const label = setDiv.querySelector('.set-label');
-            if (label) {
-                label.textContent = `Set:  ${index + 1}`;
-            }
-        });
+    function refreshExerciseTotal() {
+        const totals = setsContainer.querySelectorAll('.set-total');
+        const sum = [...totals].reduce((acc, el) => acc + (+el.dataset.value || 0), 0);
+        exerciseTotal.textContent = `Total: ${sum}`;
     }
 
     function createSet() {
         const setDiv = document.createElement('div');
-        setDiv.classList.add('set');
+        setDiv.className = 'set';
 
-        // Set label
-        const setLabel = document.createElement('span');
-        setLabel.classList.add('set-label');
-        // We'll set the text later when refreshing labels
-        setDiv.appendChild(setLabel);
+        const label = document.createElement('span');
+        label.className = 'set-label';
+        setDiv.appendChild(label);
 
-        const weightInput = document.createElement('input');
-        weightInput.type = 'number';
-        weightInput.min = '0';
-        weightInput.placeholder = 'Weight (lb)';
+        const wInput = document.createElement('input');
+        wInput.type = 'number'; wInput.min = 0; wInput.placeholder = 'Wt';
+        const wEcho  = document.createElement('span');
+        wEcho.className = 'weight-echo';
 
-        const repsInput = document.createElement('input');
-        repsInput.type = 'number';
-        repsInput.min = '0';
-        repsInput.placeholder = 'Reps';
+        const rInput = document.createElement('input');
+        rInput.type = 'number'; rInput.min = 0; rInput.placeholder = 'Reps';
 
-        const deleteSetBtn = document.createElement('button');
-        deleteSetBtn.textContent = 'Delete Set';
-        deleteSetBtn.addEventListener('click', () => {
+        const totalSpan = document.createElement('span');
+        totalSpan.className = 'set-total';
+        totalSpan.textContent = '0';
+        totalSpan.dataset.value = 0;
+
+        const delBtn = document.createElement('button');
+        delBtn.textContent = 'Delete Set';
+        delBtn.addEventListener('click', () => {
             setDiv.remove();
-            refreshSetLabels(); // update labels after delete
+            numberSets();
+            refreshExerciseTotal();
         });
 
-        setDiv.appendChild(weightInput);
-        setDiv.appendChild(repsInput);
-        setDiv.appendChild(deleteSetBtn);
+        function recalc() {
+            wEcho.textContent = wInput.value ? `${wInput.value} lb` : '';
+            const total = (+wInput.value || 0) * (+rInput.value || 0);
+            totalSpan.textContent = total;
+            totalSpan.dataset.value = total;
+            refreshExerciseTotal();
+        }
+        wInput.addEventListener('input', recalc);
+        rInput.addEventListener('input', recalc);
 
+        [wInput, wEcho, rInput, totalSpan, delBtn].forEach(el => setDiv.appendChild(el));
         return setDiv;
     }
 
-    // Add the first set by default
+    function numberSets() {
+        setsContainer.querySelectorAll('.set').forEach((s, i) => {
+            s.querySelector('.set-label').textContent = `Set ${i + 1}`;
+        });
+    }
+
     setsContainer.appendChild(createSet());
-    refreshSetLabels();
+    numberSets();
+    refreshExerciseTotal();
 
     const addSetBtn = document.createElement('button');
     addSetBtn.textContent = 'Add Set';
-    addSetBtn.addEventListener('click', () => {
-        setsContainer.appendChild(createSet());
-        refreshSetLabels(); // update labels after adding
-    });
+    addSetBtn.onclick = () => { setsContainer.appendChild(createSet()); numberSets(); };
 
-    exerciseDiv.appendChild(addSetBtn);
+    const delExerciseBtn = document.createElement('button');
+    delExerciseBtn.textContent = 'Delete Exercise';
+    delExerciseBtn.onclick = () => exerciseDiv.remove();
 
-    const deleteBtn = document.createElement('button');
-    deleteBtn.textContent = 'Delete Exercise';
-    deleteBtn.addEventListener('click', () => {
-        exerciseDiv.remove();
-    });
-
-    exerciseDiv.appendChild(deleteBtn);
-
+    exerciseDiv.append(addSetBtn, delExerciseBtn);
     exercisesContainer.appendChild(exerciseDiv);
 
     exerciseInput.value = '';
@@ -123,14 +127,10 @@ function addExercise() {
 }
 
 addExerciseBtn.addEventListener('click', addExercise);
- 
-// Adding elements to a list ^^
 
 exerciseInput.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
-        event.preventDefault(); // Prevent form submission or unintended behavior
-        addExerciseBtn.click(); // Simulate clicking the "Add exercise" button
+        event.preventDefault();
+        addExerciseBtn.click();
     }
 });
-
-// Kepress enter / return -> to next
