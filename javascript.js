@@ -369,3 +369,8 @@ function clearUI() {
   // Reset grand total
   document.getElementById('grandTotal').textContent = 'Grand Total: 0 lbs';
 }
+
+if ('serviceWorker' in navigator) {
+navigator.serviceWorker.register('service-worker.js')
+    .then(() => console.log('Service Worker Registered'));
+}
