@@ -127,3 +127,36 @@
   #clearButton:hover {
     background-color: #cc0000;
   }
+
+/* Dark mode styles */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+  
+  body.dark-mode button {
+    background-color: #007bff;  /* same blue as light mode */
+    color: white;
+  }
+  
+  body.dark-mode button:hover {
+    background-color: #0056b3;  /* same hover blue as light mode */
+  }
+  
+  body.dark-mode input[type="text"],
+  body.dark-mode input[type="number"] {
+    background-color: #222;
+    color: #eee;
+    border: 1px solid #555;
+  }
+  
+  body.dark-mode .exercise-item {
+    background-color: #1e1e1e;
+    box-shadow: 0 2px 4px rgba(255,255,255,0.1);
+  }
+  
+  body.dark-mode #grandTotal {
+    border-color: #444;
+  }
+  
+  /* Add any other elements you want styled in dark mode */

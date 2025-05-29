@@ -259,3 +259,113 @@ clearBtn.addEventListener('click', () => {
         location.reload();
     }
 });
+
+const darkModeToggle = document.getElementById('darkModeToggle');
+
+function setDarkMode(enabled) {
+  if (enabled) {
+    document.body.classList.add('dark-mode');
+  } else {
+    document.body.classList.remove('dark-mode');
+  }
+  localStorage.setItem('darkMode', enabled);
+}
+
+// Load saved preference on page load
+window.addEventListener('DOMContentLoaded', () => {
+  const savedMode = localStorage.getItem('darkMode') === 'true';
+  setDarkMode(savedMode);
+});
+
+// Toggle button click handler
+darkModeToggle.addEventListener('click', () => {
+  const isDark = document.body.classList.contains('dark-mode');
+  setDarkMode(!isDark);
+});
+
+// === EXPORT WORKOUT DATA AS JSON FILE ===
+const exportBtn = document.getElementById('exportButton');
+
+exportBtn.addEventListener('click', () => {
+  const workoutData = localStorage.getItem('workoutData');
+  if (!workoutData) {
+    alert('No workout data to export!');
+    return;
+  }
+
+  // Create a Blob from JSON string
+  const blob = new Blob([workoutData], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+
+  // Create temporary <a> element to trigger download
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'workout-data.json';
+  document.body.appendChild(a);
+  a.click();
+
+  // Cleanup
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+
+// === IMPORT WORKOUT DATA FROM JSON FILE ===
+const importBtn = document.getElementById('importButton');
+const importFileInput = document.getElementById('importFileInput');
+
+importBtn.addEventListener('click', () => {
+  // Open file picker when Import button clicked
+  importFileInput.click();
+});
+
+importFileInput.addEventListener('change', () => {
+  const file = importFileInput.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = (e) => {
+    try {
+      const importedData = JSON.parse(e.target.result);
+
+      // Validate required fields just lightly
+      if (!importedData.exercises || !Array.isArray(importedData.exercises)) {
+        alert('Invalid workout data file.');
+        return;
+      }
+
+      // Save imported data to localStorage
+      localStorage.setItem('workoutData', JSON.stringify(importedData));
+
+      // Clear current UI and load imported data
+      clearUI();
+      loadFromStorage();
+
+      alert('Workout data imported successfully!');
+    } catch (error) {
+      alert('Error parsing workout data file.');
+      console.error(error);
+    }
+  };
+
+  reader.readAsText(file);
+
+  // Clear input value so same file can be imported again if needed
+  importFileInput.value = '';
+});
+
+// === Clear UI helper function before loading new data ===
+function clearUI() {
+  // Clear exercises container
+  exercisesContainer.innerHTML = '';
+
+  // Reset workout time input
+  timeInput.value = '';
+
+  // Reset arm/leg day display and index
+  currentIndex = 0;
+  display.textContent = armsOrLegs[currentIndex];
+
+  // Reset grand total
+  document.getElementById('grandTotal').textContent = 'Grand Total: 0 lbs';
+}

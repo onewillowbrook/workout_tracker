@@ -10,6 +10,8 @@
 <body>
   <h1>Workout Tracker!</h1>
 
+  <button id="darkModeToggle">Toggle Dark Mode</button>
+
   <div id="dateKeeper">
     <label for="todayDate">Today's Date:</label>
     <p id="date"></p>
@@ -36,6 +38,12 @@
 
   <ul id="exerciseList"></ul>
   <div id="exercisesContainer"></div>
+
+  <div id="exportImportWrapper" style="margin-top: 15px;">
+    <button id="exportButton">Export Data</button>
+    <input type="file" id="importFileInput" accept=".json" style="display:none" />
+    <button id="importButton">Import Data</button>
+  </div>
 
   <div id="clearWrapper">
     <button id="clearButton">Clear All Data</button>
