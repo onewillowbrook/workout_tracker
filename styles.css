@@ -5,7 +5,31 @@ h1 {
 #date {
     font-size: 1.2rem;
     font-weight: bold;
-    margin-top: 10px;
+    margin: 0;
+}
+
+#dateKeeper {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+#dateKeeper label {
+    font-weight: bold;
+}
+
+#switchGroup {
+    display: flex;
+    align-items: center;
+}
+
+#switchButton {
+    display: flex;
+    width: 50px;
+    height: 25px;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
 }
 
 #exerciseList {
@@ -19,7 +43,6 @@ h1 {
     font-weight: 500;
 }
 
-/* Space between different exercises */
 .exercise-item {
     margin-bottom: 20px;
     padding: 10px;
@@ -27,54 +50,43 @@ h1 {
     border-radius: 8px;
 }
 
-/* Space between each set within an exercise */
 .set {
     margin-top: 10px;
 }
 
-/* Space between "Set X" label and inputs */
 .set-label {
     display: inline-block;
     width: 60px;
     margin-right: 10px;
 }
 
-/* Optional spacing between input fields */
 .set input {
     margin-right: 10px;
+}
+
+.set-total {
+    margin-right: 10px;
+}
+
+.exercise-total {
+    display: inline-block;
+    margin-left: 10px;
+    margin-bottom: 5px;
 }
 
 #grandTotal {
     margin-top: 25px;
     margin-bottom: 25px;
+    padding-bottom: 10px;
     font-weight: bold;
     font-size: 1.2em;
-  }
-  
-  #exerciseInputGroup {
+}
+
+#exerciseInputGroup {
     margin-top: 10px;
-  }
-
-  #dateKeeper {
     display: flex;
-    gap: 5px;
+    gap: 10px;
     align-items: center;
-  }
-
-  #date {
-    margin: 0;            /* Remove default <p> margin */
-  }
-
-  #switchGroup {
-    display: flex;
-    align-items: center;
-  }
-
-  #switchButton {
-    display: flex;
-    width: 50px;
-    height: 25px;
-    justify-content: center;
-    align-items: center;
-    margin-right: 5px;
-  }
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
