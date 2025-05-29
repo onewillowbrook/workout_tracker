@@ -45,59 +45,78 @@ function addExercise() {
 
     const exerciseTotal = document.createElement('span');
     exerciseTotal.className = 'exercise-total';
-    exerciseTotal.textContent = 'Total: 0';
+    exerciseTotal.textContent = 'Total: 0 lbs';
+    exerciseTotal.style.marginBottom = '5px';
+    exerciseTotal.style.display = 'inline-block';
+    exerciseTotal.style.marginLeft = '10px';
     exerciseDiv.appendChild(exerciseTotal);
 
     const setsContainer = document.createElement('div');
     setsContainer.className = 'sets-container';
     exerciseDiv.appendChild(setsContainer);
 
-    function refreshExerciseTotal() {
-        const totals = setsContainer.querySelectorAll('.set-total');
-        const sum = [...totals].reduce((acc, el) => acc + (+el.dataset.value || 0), 0);
-        exerciseTotal.textContent = `Total: ${sum}`;
+    function updateExerciseTotal() {
+        const sets = setsContainer.querySelectorAll('.set');
+        let total = 0;
+        sets.forEach(set => {
+            const weight = parseFloat(set.querySelector('input[placeholder="Weight (lb)"]').value) || 0;
+            const reps = parseFloat(set.querySelector('input[placeholder="Reps"]').value) || 0;
+            total += weight * reps;
+        });
+        exerciseTotal.textContent = `Total: ${total} lbs`;
     }
 
     function createSet() {
         const setDiv = document.createElement('div');
-        setDiv.className = 'set';
-
-        const label = document.createElement('span');
-        label.className = 'set-label';
-        setDiv.appendChild(label);
-
-        const wInput = document.createElement('input');
-        wInput.type = 'number'; wInput.min = 0; wInput.placeholder = 'Wt';
-        const wEcho  = document.createElement('span');
-        wEcho.className = 'weight-echo';
-
-        const rInput = document.createElement('input');
-        rInput.type = 'number'; rInput.min = 0; rInput.placeholder = 'Reps';
-
-        const totalSpan = document.createElement('span');
-        totalSpan.className = 'set-total';
-        totalSpan.textContent = '0';
-        totalSpan.dataset.value = 0;
-
-        const delBtn = document.createElement('button');
-        delBtn.textContent = 'Delete Set';
-        delBtn.addEventListener('click', () => {
+        setDiv.classList.add('set');
+    
+        // Set label
+        const setLabel = document.createElement('span');
+        setLabel.classList.add('set-label');
+        setLabel.style.marginRight = '10px';
+        setDiv.appendChild(setLabel);
+    
+        const weightInput = document.createElement('input');
+        weightInput.type = 'number';
+        weightInput.min = '0';
+        weightInput.placeholder = 'Weight (lb)';
+        weightInput.style.marginRight = '5px';
+    
+        const repsInput = document.createElement('input');
+        repsInput.type = 'number';
+        repsInput.min = '0';
+        repsInput.placeholder = 'Reps';
+        repsInput.style.marginRight = '10px';
+    
+        const setTotal = document.createElement('span');
+        setTotal.classList.add('set-total');
+        setTotal.style.marginRight = '10px';
+        setTotal.textContent = 'Total: 0 lbs';
+    
+        const deleteSetBtn = document.createElement('button');
+        deleteSetBtn.textContent = 'Delete Set';
+        deleteSetBtn.addEventListener('click', () => {
             setDiv.remove();
             numberSets();
-            refreshExerciseTotal();
+            updateExerciseTotal();
         });
-
-        function recalc() {
-            wEcho.textContent = wInput.value ? `${wInput.value} lb` : '';
-            const total = (+wInput.value || 0) * (+rInput.value || 0);
-            totalSpan.textContent = total;
-            totalSpan.dataset.value = total;
-            refreshExerciseTotal();
+    
+        function updateSetTotal() {
+            const weight = parseFloat(weightInput.value) || 0;
+            const reps = parseFloat(repsInput.value) || 0;
+            const total = weight * reps;
+            setTotal.textContent = `Total: ${total} lbs`;
+            updateExerciseTotal();
         }
-        wInput.addEventListener('input', recalc);
-        rInput.addEventListener('input', recalc);
-
-        [wInput, wEcho, rInput, totalSpan, delBtn].forEach(el => setDiv.appendChild(el));
+    
+        weightInput.addEventListener('input', updateSetTotal);
+        repsInput.addEventListener('input', updateSetTotal);
+    
+        setDiv.appendChild(weightInput);
+        setDiv.appendChild(repsInput);
+        setDiv.appendChild(setTotal);
+        setDiv.appendChild(deleteSetBtn);
+    
         return setDiv;
     }
 
@@ -109,11 +128,14 @@ function addExercise() {
 
     setsContainer.appendChild(createSet());
     numberSets();
-    refreshExerciseTotal();
+    updateExerciseTotal();
 
     const addSetBtn = document.createElement('button');
     addSetBtn.textContent = 'Add Set';
-    addSetBtn.onclick = () => { setsContainer.appendChild(createSet()); numberSets(); };
+    addSetBtn.onclick = () => {
+        setsContainer.appendChild(createSet());
+        numberSets();
+    };
 
     const delExerciseBtn = document.createElement('button');
     delExerciseBtn.textContent = 'Delete Exercise';
