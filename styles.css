@@ -24,7 +24,7 @@
   #date {
     font-weight: bold;
     font-size: 1rem;
-    margin-top: 5px;
+    margin-left: 5px;
   }
   
   /* Layout spacing */
@@ -35,7 +35,7 @@
   /* Switch section */
   #switchButton {
     padding: 5px 10px;
-    margin-top: 5px;
+    /* margin-top: 5px; */
     margin-right: 10px;
   }
   
@@ -160,3 +160,14 @@ body.dark-mode {
   }
   
   /* Add any other elements you want styled in dark mode */
+
+  #dateKeeper {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  #switchGroup {
+    display: flex;
+  }
