@@ -43,20 +43,33 @@ function addExercise() {
     const exerciseDiv = document.createElement('div');
     exerciseDiv.classList.add('exercise-item');
 
-    // Exercise name
     const nameSpan = document.createElement('span');
     nameSpan.textContent = exerciseName;
     exerciseDiv.appendChild(nameSpan);
 
-    // Container for sets
     const setsContainer = document.createElement('div');
     setsContainer.classList.add('sets-container');
     exerciseDiv.appendChild(setsContainer);
 
-    // Function to create a set row (weight + reps inputs)
+    function refreshSetLabels() {
+        const sets = setsContainer.querySelectorAll('.set');
+        sets.forEach((setDiv, index) => {
+            const label = setDiv.querySelector('.set-label');
+            if (label) {
+                label.textContent = `Set:  ${index + 1}`;
+            }
+        });
+    }
+
     function createSet() {
         const setDiv = document.createElement('div');
         setDiv.classList.add('set');
+
+        // Set label
+        const setLabel = document.createElement('span');
+        setLabel.classList.add('set-label');
+        // We'll set the text later when refreshing labels
+        setDiv.appendChild(setLabel);
 
         const weightInput = document.createElement('input');
         weightInput.type = 'number';
@@ -68,31 +81,33 @@ function addExercise() {
         repsInput.min = '0';
         repsInput.placeholder = 'Reps';
 
-        // Optionally, a delete button for the set itself (optional)
-        // const deleteSetBtn = document.createElement('button');
-        // deleteSetBtn.textContent = 'Delete Set';
-        // deleteSetBtn.addEventListener('click', () => setDiv.remove());
+        const deleteSetBtn = document.createElement('button');
+        deleteSetBtn.textContent = 'Delete Set';
+        deleteSetBtn.addEventListener('click', () => {
+            setDiv.remove();
+            refreshSetLabels(); // update labels after delete
+        });
 
         setDiv.appendChild(weightInput);
         setDiv.appendChild(repsInput);
-        // setDiv.appendChild(deleteSetBtn);
+        setDiv.appendChild(deleteSetBtn);
 
         return setDiv;
     }
 
     // Add the first set by default
     setsContainer.appendChild(createSet());
+    refreshSetLabels();
 
-    // Add Set button
     const addSetBtn = document.createElement('button');
     addSetBtn.textContent = 'Add Set';
     addSetBtn.addEventListener('click', () => {
         setsContainer.appendChild(createSet());
+        refreshSetLabels(); // update labels after adding
     });
 
     exerciseDiv.appendChild(addSetBtn);
 
-    // Delete exercise button
     const deleteBtn = document.createElement('button');
     deleteBtn.textContent = 'Delete Exercise';
     deleteBtn.addEventListener('click', () => {
