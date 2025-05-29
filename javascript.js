@@ -29,13 +29,42 @@ const addExerciseBtn = document.getElementById('addExercise');
 const exerciseList = document.getElementById('exerciseList');
 
 addExerciseBtn.addEventListener('click', () => {
-    const exercise = exerciseInput.value.trim();
+    let exercise = exerciseInput.value.trim();
+    exercise = exercise.split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
     if (exercise !== '') {
         const li = document.createElement('li');
-        li.textContent = exercise;
+
+        // Create a span to hold the exercise name
+        const exerciseText = document.createElement('span');
+        exerciseText.textContent = exercise;
+
+        // Create delete button
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = '❌';
+        deleteBtn.style.marginLeft = '10px';
+        deleteBtn.addEventListener('click', () => {
+            li.remove(); // Remove the list item
+        });
+
+        // Append span and button to the list item
+        li.appendChild(exerciseText);
+        li.appendChild(deleteBtn);
         exerciseList.appendChild(li);
-        exerciseInput.value = ''; // clear input
+
+        // Clear input
+        exerciseInput.value = '';
     }
 });
 
 // Adding elements to a list ^^
+
+exerciseInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        event.preventDefault(); // Prevent form submission or unintended behavior
+        addExerciseBtn.click(); // Simulate clicking the "Add exercise" button
+    }
+});
+
+// Kepress enter / return -> to next

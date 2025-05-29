@@ -7,3 +7,14 @@ h1 {
     font-weight: bold;
     margin-top: 10px;
 }
+
+#exerciseList {
+    margin-top: 10px;
+    list-style: none;
+    padding-left: 0;
+}
+
+#exerciseList li {
+    margin-bottom: 5px;
+    font-weight: 500;
+}
